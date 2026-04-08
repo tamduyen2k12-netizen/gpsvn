@@ -11,11 +11,28 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 // Middleware
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+app.use(express.static(__dirname));   // Phục vụ file HTML, CSS, JS
 
-// === PHỤC VỤ FILE TĨNH (HTML, CSS, JS) ===
-app.use(express.static(__dirname)); // ← Dòng quan trọng này
+// Đọc dữ liệu
+function readData() {
+    try {
+        if (fs.existsSync(DATA_FILE)) {
+            return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+        }
+    } catch (e) {}
+    return [];
+}
 
-// API Routes
+// Ghi dữ liệu
+function writeData(data) {
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    } catch (e) {
+        console.error('Lỗi ghi file:', e);
+    }
+}
+
+// API nhận vị trí từ client
 app.post('/api/location', (req, res) => {
     const { lat, lng, address, speed, accuracy } = req.body;
 
@@ -37,39 +54,23 @@ app.post('/api/location', (req, res) => {
     };
 
     locations.unshift(newLoc);
-    if (locations.length > 1000) locations.pop();
+    if (locations.length > 2000) locations.pop();   // Giới hạn dữ liệu
 
     writeData(locations);
     console.log(`📍 Nhận vị trí mới: ${newLoc.time}`);
     res.json({ success: true });
 });
 
+// API lấy dữ liệu cho admin
 app.get('/api/locations', (req, res) => {
     res.json(readData());
 });
 
+// Xóa tất cả dữ liệu
 app.delete('/api/locations', (req, res) => {
     writeData([]);
-    res.json({ success: true });
+    res.json({ success: true, message: 'Đã xóa tất cả dữ liệu' });
 });
-
-// Đọc/Ghi dữ liệu
-function readData() {
-    try {
-        if (fs.existsSync(DATA_FILE)) {
-            return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-        }
-    } catch (e) {}
-    return [];
-}
-
-function writeData(data) {
-    try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-    } catch (e) {
-        console.error('Lỗi ghi file:', e);
-    }
-}
 
 // Route mặc định
 app.get('/', (req, res) => {
@@ -77,8 +78,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`\n✅ Server GPS đang chạy tại: http://localhost:${PORT}`);
-    console.log(`🌍 Truy cập ngay:`);
-    console.log(`   → Client : http://localhost:${PORT}`);
-    console.log(`   → Admin  : http://localhost:${PORT}/admin.html\n`);
+    console.log(`\n✅ Server GPS đang chạy tại port ${PORT}`);
+    console.log(`🌍 Link công khai: https://gps-tracker-or9a.onrender.com`);
+    console.log(`👤 Admin: https://gps-tracker-or9a.onrender.com/admin.html\n`);
 });
