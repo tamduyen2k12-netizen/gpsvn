@@ -1,260 +1,60 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GPS Admin • Theo dõi Thời gian Thực</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap');
-         :root {
-            --bg: #0a0f1c;
-            --sidebar: #111827;
-            --card: #161f2e;
-            --card2: #1e2937;
-            --text: #e2e8f0;
-            --text-light: #94a3b8;
-            --accent: #6366f1;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --border: rgba(148, 163, 184, 0.15);
+        :root {
+            --bg: #0a0f1c; --sidebar: #111827; --card: #161f2e; --card2: #1e2937;
+            --text: #e2e8f0; --text-light: #94a3b8; --accent: #6366f1;
+            --success: #22c55e; --danger: #ef4444; --border: rgba(148,163,184,0.15);
         }
-        
         body.light {
-            --bg: #f8fafc;
-            --sidebar: #f1f5f9;
-            --card: #ffffff;
-            --card2: #f8fafc;
-            --text: #1e2937;
-            --text-light: #64748b;
-            --accent: #4f46e5;
-            --border: rgba(148, 163, 184, 0.2);
+            --bg: #f8fafc; --sidebar: #f1f5f9; --card: #ffffff; --card2: #f8fafc;
+            --text: #1e2937; --text-light: #64748b; --accent: #4f46e5; --border: rgba(148,163,184,0.2);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-        }
-        
-        .sidebar {
-            width: 260px;
-            background: var(--sidebar);
-            padding: 24px 16px;
-            height: 100vh;
-            position: fixed;
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-        }
-        
-        .logo {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 40px;
-            padding-left: 12px;
-        }
-        
-        .nav-item {
-            padding: 14px 20px;
-            border-radius: 14px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .nav-item:hover,
-        .nav-item.active {
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--accent);
-        }
-        
-        .main-content {
-            margin-left: 260px;
-            flex: 1;
-            padding: 30px;
-        }
-        
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .map-container {
-            background: var(--card);
-            padding: 14px;
-            border-radius: 24px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            margin-bottom: 30px;
-        }
-        
-        #map {
-            height: 480px;
-            border-radius: 18px;
-        }
-        
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .search-bar {
-            flex: 1;
-            min-width: 300px;
-            background: var(--card2);
-            border: 1px solid var(--border);
-            padding: 15px 22px;
-            border-radius: 16px;
-            font-size: 1.05rem;
-        }
-        
-        table {
-            width: 100%;
-            background: var(--card);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-        }
-        
-        th,
-        td {
-            padding: 16px 18px;
-            text-align: left;
-        }
-        
-        th {
-            background: var(--card2);
-            font-weight: 600;
-            color: var(--text-light);
-        }
-        
-        tr:hover {
-            background: rgba(99, 102, 241, 0.08);
-        }
-        
-        button {
-            padding: 12px 24px;
-            border-radius: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(90deg, var(--accent), #818cf8);
-            color: white;
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--success);
-            color: white;
-            padding: 16px 28px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            z-index: 3000;
-            opacity: 0;
-            transition: all 0.4s;
-        }
-        
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 4000;
-        }
-        
-        .modal-content {
-            background: var(--card);
-            padding: 32px;
-            border-radius: 24px;
-            max-width: 440px;
-            width: 90%;
-        }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 25px;
-            right: 280px;
-            width: 48px;
-            height: 48px;
-            background: var(--card);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            z-index: 100;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; }
+        .sidebar { width:260px; background:var(--sidebar); padding:24px 16px; height:100vh; position:fixed; border-right:1px solid var(--border); }
+        .logo { font-family:'Poppins',sans-serif; font-size:1.8rem; font-weight:700; background:linear-gradient(90deg,#6366f1,#a855f7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:40px; padding-left:12px; }
+        .nav-item { padding:14px 20px; border-radius:14px; margin-bottom:6px; display:flex; align-items:center; gap:12px; font-weight:500; cursor:pointer; }
+        .nav-item:hover, .nav-item.active { background:rgba(99,102,241,0.15); color:var(--accent); }
+        .main-content { margin-left:260px; flex:1; padding:30px; }
+        .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; flex-wrap:wrap; gap:15px; }
+        .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; margin-bottom:30px; }
+        .stat-card { background:var(--card); padding:24px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+        .map-container { background:var(--card); padding:14px; border-radius:24px; box-shadow:0 15px 40px rgba(0,0,0,0.25); margin-bottom:30px; }
+        #map { height:480px; border-radius:18px; }
+        .controls { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+        .search-bar { flex:1; min-width:300px; background:var(--card2); border:1px solid var(--border); padding:15px 22px; border-radius:16px; font-size:1.05rem; }
+        table { width:100%; background:var(--card); border-radius:20px; overflow:hidden; box-shadow:0 12px 35px rgba(0,0,0,0.25); }
+        th, td { padding:16px 18px; text-align:left; }
+        th { background:var(--card2); font-weight:600; color:var(--text-light); }
+        tr:hover { background:rgba(99,102,241,0.08); }
+        button { padding:12px 24px; border-radius:14px; font-weight:600; cursor:pointer; }
+        .btn-primary { background:linear-gradient(90deg,var(--accent),#818cf8); color:white; }
+        .btn-danger { background:var(--danger); color:white; }
+        .toast { position:fixed; bottom:30px; right:30px; background:var(--success); color:white; padding:16px 28px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.4); z-index:3000; opacity:0; transition:all 0.4s; }
+        .modal { position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; align-items:center; justify-content:center; z-index:4000; }
+        .modal-content { background:var(--card); padding:32px; border-radius:24px; max-width:440px; width:90%; }
+        .theme-toggle { position:fixed; top:25px; right:280px; width:48px; height:48px; background:var(--card); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.6rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); cursor:pointer; z-index:100; }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 </head>
-
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">GPS Admin</div>
         <div class="nav-item active"><span>📊</span> Tổng quan</div>
-        <div class="nav-item"><span>🗺️</span> Bản đồ trực tiếp</div>
-        <div class="nav-item"><span>📜</span> Lịch sử vị trí</div>
-        <div class="nav-item"><span>⚙️</span> Cài đặt</div>
     </div>
 
     <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Login -->
         <div id="loginScreen" style="max-width:420px;margin:140px auto;">
             <div style="background:var(--card);padding:50px 40px;border-radius:28px;box-shadow:0 30px 60px rgba(0,0,0,0.4);">
                 <h2 style="text-align:center;margin-bottom:30px;font-size:1.9rem;">🔐 Admin Access</h2>
@@ -263,50 +63,32 @@
             </div>
         </div>
 
-        <!-- Main Panel -->
         <div id="mainPanel" style="display:none;">
             <div class="header">
-                <h1 style="font-size:2.3rem;font-weight:700;">Theo dõi Vị trí GPS Thời gian Thực</h1>
+                <h1 style="font-size:2.3rem;font-weight:700;">Theo dõi Vị trí GPS</h1>
                 <div>
                     <button class="btn-primary" onclick="loadData()">🔄 Làm mới</button>
                     <button onclick="toggleAutoRefresh()" id="autoBtn" style="margin-left:10px;">⏰ Auto Refresh: OFF</button>
                 </div>
             </div>
 
-            <!-- Stats -->
             <div class="stats">
-                <div class="stat-card">
-                    <div id="total" style="font-size:2.6rem;font-weight:700;color:var(--accent);">0</div>
-                    <div>Tổng vị trí</div>
-                </div>
-                <div class="stat-card">
-                    <div id="today" style="font-size:2.6rem;font-weight:700;color:var(--success);">0</div>
-                    <div>Hôm nay</div>
-                </div>
-                <div class="stat-card">
-                    <div id="latest" style="font-size:1.4rem;">—</div>
-                    <div>Cập nhật cuối</div>
-                </div>
+                <div class="stat-card"><div id="total" style="font-size:2.6rem;font-weight:700;color:var(--accent);">0</div><div>Tổng vị trí</div></div>
+                <div class="stat-card"><div id="today" style="font-size:2.6rem;font-weight:700;color:var(--success);">0</div><div>Hôm nay</div></div>
+                <div class="stat-card"><div id="latest" style="font-size:1.4rem;">—</div><div>Cập nhật cuối</div></div>
             </div>
 
-            <!-- Map -->
-            <div class="map-container">
-                <div id="map"></div>
-            </div>
+            <div class="map-container"><div id="map"></div></div>
 
-            <!-- Controls -->
             <div class="controls">
                 <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Tìm kiếm địa chỉ, thời gian..." onkeyup="filterData()">
                 <button class="btn-primary" onclick="exportCSV()">📥 Xuất CSV</button>
-                <button class="btn-danger" onclick="deleteSelected()">🗑️ Xóa đã chọn</button>
                 <button class="btn-danger" onclick="clearAllData()">🗑️ Xóa tất cả</button>
             </div>
 
-            <!-- Table -->
             <table id="locationTable">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
                         <th>Thời gian</th>
                         <th>Tọa độ</th>
                         <th>Địa chỉ</th>
@@ -320,17 +102,15 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!-- Modal -->
     <div class="modal" id="confirmModal">
         <div class="modal-content">
             <h3 style="color:var(--danger);">Xác nhận xóa?</h3>
             <p id="modalText" style="margin:20px 0;color:var(--text-light);"></p>
             <div style="display:flex;gap:15px;justify-content:flex-end;">
                 <button onclick="closeModal()" style="padding:12px 28px;background:#475569;color:white;border:none;border-radius:12px;">Hủy</button>
-                <button onclick="confirmDelete()" id="confirmBtn" style="padding:12px 28px;background:var(--danger);color:white;border:none;border-radius:12px;">Xóa</button>
+                <button onclick="confirmDelete()" style="padding:12px 28px;background:var(--danger);color:white;border:none;border-radius:12px;">Xóa</button>
             </div>
         </div>
     </div>
@@ -339,9 +119,7 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script>
         const ADMIN_PASSWORD = "admin123";
-        let map, markerCluster, polyline, allData = [],
-            autoRefreshInterval = null,
-            isAutoRefresh = false;
+        let map, markerCluster, polyline, allData = [], autoRefreshInterval = null, isAutoRefresh = false;
 
         function showToast(msg, color = '#22c55e') {
             const toast = document.getElementById('toast');
@@ -356,24 +134,18 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainPanel').style.display = 'block';
                 loadData();
-            } else {
-                alert("❌ Mật khẩu sai!");
-            }
+            } else alert("❌ Mật khẩu sai!");
         }
 
         function toggleTheme() {
             document.body.classList.toggle('light');
-            const icon = document.querySelector('.theme-toggle');
-            icon.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+            document.querySelector('.theme-toggle').textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         }
 
         function initMap() {
             if (map) return;
             map = L.map('map').setView([16.0, 106.0], 6);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap'
-            }).addTo(map);
-
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             markerCluster = L.markerClusterGroup();
             map.addLayer(markerCluster);
         }
@@ -384,18 +156,18 @@
             if (polyline) map.removeLayer(polyline);
 
             try {
-                const res = await fetch('http://localhost:3000/api/locations');
+                const res = await fetch('/api/locations');
                 allData = await res.json();
             } catch (e) {
-                console.log("Không kết nối được server, dùng dữ liệu local");
-                allData = JSON.parse(localStorage.getItem('gpsLocations') || '[]');
+                console.error("Không kết nối được server");
+                allData = [];
             }
 
-            allData.sort((a, b) => b.timestamp - a.timestamp);
+            allData.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
 
             document.getElementById('total').textContent = allData.length;
-            const today = allData.filter(d => d.time && d.time.includes(new Date().toLocaleDateString('vi-VN'))).length;
-            document.getElementById('today').textContent = today;
+            const todayCount = allData.filter(d => d.time && d.time.includes(new Date().toLocaleDateString('vi-VN'))).length;
+            document.getElementById('today').textContent = todayCount;
             document.getElementById('latest').textContent = allData[0] ? allData[0].time : '—';
 
             renderTable(allData);
@@ -403,44 +175,29 @@
         }
 
         function renderMapWithPath(data) {
-            markerCluster.clearLayers();
             const coords = [];
-
             data.forEach(loc => {
-                const marker = L.marker([loc.lat, loc.lng])
-                    .bindPopup(`<b>${loc.address}</b><br>${loc.time}<br>Tốc độ: ${loc.speed || '—'}`);
-                markerCluster.addLayer(marker);
+                L.marker([loc.lat, loc.lng])
+                  .bindPopup(`<b>${loc.address}</b><br>${loc.time}`)
+                  .addTo(markerCluster);
                 coords.push([loc.lat, loc.lng]);
             });
-
-            if (coords.length > 1) {
-                polyline = L.polyline(coords, {
-                    color: '#6366f1',
-                    weight: 4,
-                    opacity: 0.75
-                }).addTo(map);
-            }
-
+            if (coords.length > 1) polyline = L.polyline(coords, {color: '#6366f1', weight: 5}).addTo(map);
             if (data.length > 0) map.fitBounds(L.featureGroup([markerCluster]).getBounds().pad(0.2));
         }
 
         function renderTable(data) {
             const tbody = document.querySelector('#locationTable tbody');
             tbody.innerHTML = '';
-
             data.forEach(loc => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><input type="checkbox" class="row-check" value="${loc.id}"></td>
-                    <td>${loc.time}</td>
-                    <td style="font-family:monospace;font-size:0.95rem;">${loc.lat.toFixed(6)}, ${loc.lng.toFixed(6)}</td>
-                    <td>${loc.address}</td>
+                    <td>${loc.time || ''}</td>
+                    <td style="font-family:monospace;">${loc.lat.toFixed(6)}, ${loc.lng.toFixed(6)}</td>
+                    <td>${loc.address || 'Không có'}</td>
                     <td>${loc.speed ? loc.speed + ' km/h' : '—'}</td>
                     <td>${loc.accuracy ? loc.accuracy + ' m' : '—'}</td>
-                    <td>
-                        <button onclick="viewOnGoogleMaps(${loc.lat},${loc.lng})" style="padding:6px 12px;margin-right:6px;">🗺️</button>
-                        <button onclick="copyCoords(${loc.lat},${loc.lng})" style="padding:6px 12px;">📋</button>
-                    </td>
+                    <td><button onclick="viewOnGoogleMaps(${loc.lat},${loc.lng})">🗺️</button></td>
                 `;
                 tbody.appendChild(row);
             });
@@ -448,92 +205,38 @@
 
         function filterData() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allData.filter(loc =>
-                (loc.address && loc.address.toLowerCase().includes(term)) ||
+            const filtered = allData.filter(loc => 
+                (loc.address && loc.address.toLowerCase().includes(term)) || 
                 (loc.time && loc.time.toLowerCase().includes(term))
             );
             renderTable(filtered);
         }
 
-        function toggleSelectAll() {
-            const checked = document.getElementById('selectAll').checked;
-            document.querySelectorAll('.row-check').forEach(cb => cb.checked = checked);
-        }
-
-        function deleteSelected() {
-            const selected = Array.from(document.querySelectorAll('.row-check:checked')).map(cb => cb.value);
-            if (!selected.length) return showToast("Chưa chọn bản ghi nào!", '#ef4444');
-
-            allData = allData.filter(loc => !selected.includes(loc.id.toString()));
-            // Cập nhật lại server nếu có thể
-            loadData();
-            showToast("Đã xóa các bản ghi đã chọn");
-        }
-
-        function clearAllData() {
-            document.getElementById('modalText').textContent = `Xóa toàn bộ ${allData.length} bản ghi?`;
-            document.getElementById('confirmModal').style.display = 'flex';
-        }
-
-        async function confirmDelete() {
-            try {
-                await fetch('http://localhost:3000/api/locations', {
-                    method: 'DELETE'
-                });
-            } catch (e) {
-                console.log("Không xóa được trên server");
-            }
-            localStorage.removeItem('gpsLocations');
-            closeModal();
-            loadData();
-            showToast("Đã xóa toàn bộ dữ liệu!", '#ef4444');
-        }
-
-        function closeModal() {
-            document.getElementById('confirmModal').style.display = 'none';
-        }
-
         function viewOnGoogleMaps(lat, lng) {
-            window.open(`https://www.google.com/maps?q=${lat},${lng}&z=19`, '_blank');
+            window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
         }
 
-        function copyCoords(lat, lng) {
-            navigator.clipboard.writeText(`${lat.toFixed(6)}, ${lng.toFixed(6)}`);
-            showToast("Đã sao chép tọa độ!");
-        }
-
-        function exportCSV() {
-            if (!allData.length) return showToast("Không có dữ liệu!", '#ef4444');
-            let csv = "Thời gian,Tọa độ,Địa chỉ,Tốc độ,Chính xác\n";
-            allData.forEach(loc => {
-                csv += `"${loc.time}","${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}","${(loc.address || '').replace(/"/g,'""')}","${loc.speed || ''}","${loc.accuracy || ''}"\n`;
-            });
-            const blob = new Blob([csv], {
-                type: 'text/csv'
-            });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `gps_data_${new Date().toISOString().slice(0,10)}.csv`;
-            a.click();
-            showToast("Đã xuất file CSV!");
+        async function clearAllData() {
+            if (confirm("Bạn chắc chắn muốn xóa TẤT CẢ dữ liệu?")) {
+                try { await fetch('/api/locations', {method: 'DELETE'}); } catch(e){}
+                loadData();
+                showToast("Đã xóa tất cả dữ liệu!", '#ef4444');
+            }
         }
 
         function toggleAutoRefresh() {
             isAutoRefresh = !isAutoRefresh;
             const btn = document.getElementById('autoBtn');
             if (isAutoRefresh) {
-                autoRefreshInterval = setInterval(loadData, 15000);
-                btn.textContent = "⏰ Auto Refresh: ON (15s)";
-                showToast("Đã bật tự động làm mới mỗi 15 giây");
+                autoRefreshInterval = setInterval(loadData, 10000);
+                btn.textContent = "⏰ Auto Refresh: ON";
             } else {
                 clearInterval(autoRefreshInterval);
                 btn.textContent = "⏰ Auto Refresh: OFF";
-                showToast("Đã tắt tự động làm mới");
             }
         }
 
         window.onload = () => {};
     </script>
 </body>
-
 </html>
