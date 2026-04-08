@@ -1,12 +1,16 @@
 {
-    "name": "gps-tracking",
-    "version": "1.0.0",
-    "main": "server.js",
-    "scripts": {
-        "start": "node server.js"
-    },
-    "dependencies": {
-        "express": "^4.19.2",
-        "cors": "^2.8.5"
-    }
+  "name": "gps-tracker",
+  "version": "1.0.0",
+  "description": "GPS Tracking App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
 }
