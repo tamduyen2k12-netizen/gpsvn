@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vị Trí Của Bạn - GPS Thời Gian Thực</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-         :root {
+        :root {
             --bg: #0a0f1c;
             --card: #161f2e;
             --accent: #3b82f6;
@@ -16,210 +15,76 @@
             --text: #e2e8f0;
             --text-light: #94a3b8;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #0a0f1c 0%, #1e2937 100%);
             color: var(--text);
             min-height: 100vh;
         }
-        
-        .header {
-            text-align: center;
-            padding: 30px 20px 20px;
-        }
-        
+        .header { text-align:center; padding:30px 20px 20px; }
         .header h1 {
             font-size: clamp(1.8rem, 5vw, 2.4rem);
-            font-weight: 700;
+            font-weight:700;
             background: linear-gradient(90deg, #60a5fa, #a5b4fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
-        .container {
-            max-width: 100%;
-            padding: 0 15px 30px;
-        }
-        
+        .container { max-width:100%; padding:0 15px 30px; }
         .card {
             background: var(--card);
-            border-radius: 28px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius:28px;
+            box-shadow:0 20px 50px rgba(0,0,0,0.4);
+            overflow:hidden;
+            border:1px solid rgba(255,255,255,0.05);
         }
-        
-        .map-container {
-            height: clamp(320px, 55vh, 460px);
-            position: relative;
-        }
-        
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-        
-        .info-section {
-            padding: 24px;
-        }
-        
+        .map-container { height: clamp(320px, 55vh, 460px); position:relative; }
+        #map { height:100%; width:100%; }
+        .info-section { padding:24px; }
         .status {
-            padding: 16px 20px;
-            border-radius: 20px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            padding:16px 20px;
+            border-radius:20px;
+            text-align:center;
+            font-weight:600;
+            font-size:1.1rem;
+            margin-bottom:20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
         }
-        
-        .success {
-            background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
-            border: 1px solid #22c55e;
-        }
-        
-        .watching {
-            background: rgba(59, 130, 246, 0.15);
-            color: #3b82f6;
-            border: 1px solid #3b82f6;
-            animation: pulse 2s infinite;
-        }
-        
-        .error {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid #ef4444;
-        }
-        
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1
-            }
-            50% {
-                opacity: 0.7
-            }
-        }
-        
-        .info-item {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-        }
-        
-        .info-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .icon {
-            font-size: 2.6rem;
-            width: 60px;
-            flex-shrink: 0;
-            text-align: center;
-        }
-        
-        .info-content h3 {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
-        
-        .info-content p {
-            font-size: 1.18rem;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 0 24px 28px;
-        }
-        
+        .success { background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid #22c55e; }
+        .watching { background:rgba(59,130,246,0.15); color:#3b82f6; border:1px solid #3b82f6; animation:pulse 2s infinite; }
+        .error { background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid #ef4444; }
+        @keyframes pulse { 0%,100% {opacity:1} 50% {opacity:0.7} }
+        .info-item { display:flex; gap:16px; margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid rgba(148,163,184,0.15); }
+        .info-item:last-child { border-bottom:none; margin-bottom:0; }
+        .icon { font-size:2.6rem; width:60px; flex-shrink:0; text-align:center; }
+        .info-content h3 { color:var(--text-light); font-size:0.95rem; margin-bottom:4px; }
+        .info-content p { font-size:1.18rem; font-weight:600; line-height:1.4; }
+        .controls { display:flex; flex-wrap:wrap; gap:12px; padding:0 24px 28px; }
         button {
-            flex: 1;
-            min-width: 140px;
-            padding: 16px 20px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            flex:1; min-width:140px; padding:16px 20px; font-size:1.05rem; font-weight:600;
+            border:none; border-radius:50px; cursor:pointer; transition:all 0.3s;
+            display:flex; align-items:center; justify-content:center; gap:8px;
         }
-        
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        
+        .btn-primary { background:var(--accent); color:white; box-shadow:0 10px 25px rgba(59,130,246,0.4); }
+        .btn-danger { background:var(--danger); color:white; }
         .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
-            color: white;
-            padding: 14px 26px;
-            border-radius: 50px;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            z-index: 10001;
-            opacity: 0;
-            transition: all 0.4s;
-            display: none;
-            white-space: nowrap;
+            position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+            background:#22c55e; color:white; padding:14px 26px; border-radius:50px;
+            font-weight:600; box-shadow:0 10px 30px rgba(0,0,0,0.4); z-index:10001;
+            opacity:0; transition:all 0.4s; display:none; white-space:nowrap;
         }
-        
         .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 15, 28, 0.97);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
+            position:fixed; inset:0; background:rgba(10,15,28,0.97);
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            z-index:10000; color:white; text-align:center; padding:30px 20px;
         }
-        
-        .footer {
-            text-align: center;
-            padding: 20px 15px;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
+        .footer { text-align:center; padding:20px 15px; opacity:0.7; font-size:0.9rem; }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
-
 <body>
 
     <div class="header">
@@ -238,7 +103,7 @@
             </div>
 
             <div class="controls">
-                <button onclick="getCurrentLocation()" class="btn-primary">🔄 Cập nhật vị trí</button>
+                <button onclick="getCurrentLocation()" class="btn-primary">🔄 Cập nhật vị trí ngay</button>
                 <button onclick="toggleWatch()" id="watchBtn" class="btn-primary">📍 Bật theo dõi liên tục</button>
                 <button onclick="shareLocation()" class="btn-primary" style="background:#10b981;">📤 Chia sẻ vị trí</button>
             </div>
@@ -247,48 +112,34 @@
 
     <div class="overlay" id="permissionOverlay" style="display:none;">
         <h2 style="font-size:2.1rem; margin-bottom:16px;">📍 Cần Quyền Vị Trí</h2>
-        <p style="font-size:1.18rem; max-width:380px; line-height:1.5; margin-bottom:30px;">Vui lòng cho phép truy cập vị trí.</p>
+        <p style="font-size:1.18rem; max-width:380px; line-height:1.5; margin-bottom:30px;">Vui lòng cho phép truy cập vị trí để ứng dụng hoạt động.</p>
         <button onclick="retryLocation()" style="background:#3b82f6; padding:18px 50px; font-size:1.25rem; border-radius:50px;">Cho phép ngay</button>
     </div>
 
     <div class="toast" id="toast"></div>
-    <div class="footer">Dữ liệu được lưu trên Server và thiết bị • Hỗ trợ iOS & Android</div>
+    <div class="footer">Dữ liệu được lưu trên Server • Hỗ trợ mọi thiết bị</div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let map, marker, watchId = null;
         let isWatching = false;
-        let currentLat = 16.0,
-            currentLng = 106.0;
+        let currentLat = 16.0, currentLng = 106.0;
 
         function initMap(lat = 16.0, lng = 106.0) {
-            if (map) {
-                map.setView([lat, lng], 18);
-                if (marker) marker.setLatLng([lat, lng]);
-                return;
-            }
-            map = L.map('map', {
-                zoomControl: true,
-                attributionControl: false
-            }).setView([lat, lng], 17);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap'
-            }).addTo(map);
+            if (map) { map.setView([lat, lng], 18); if (marker) marker.setLatLng([lat, lng]); return; }
+            map = L.map('map', {zoomControl:true, attributionControl:false}).setView([lat, lng], 17);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; OpenStreetMap'}).addTo(map);
             marker = L.marker([lat, lng]).addTo(map).bindPopup('<b>Vị trí hiện tại</b>').openPopup();
         }
 
         async function getAddress(lat, lng) {
             try {
                 const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`, {
-                    headers: {
-                        'User-Agent': 'ViTriApp/3.0'
-                    }
+                    headers: {'User-Agent': 'ViTriApp/3.0'}
                 });
                 const data = await res.json();
                 return data.display_name || `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-            } catch (e) {
-                return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-            }
+            } catch (e) { return `${lat.toFixed(6)}, ${lng.toFixed(6)}`; }
         }
 
         function showToast(message, type = 'success') {
@@ -297,41 +148,29 @@
             toast.style.background = type === 'success' ? '#22c55e' : '#ef4444';
             toast.style.display = 'block';
             toast.style.opacity = '1';
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.style.display = 'none', 400);
-            }, 2800);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.style.display = 'none', 400); }, 2800);
         }
 
+        // ==================== HÀM QUAN TRỌNG - ĐÃ SỬA CHO RENDER ====================
         async function sendToServer(lat, lng, address, accuracy, speed) {
             try {
-                await fetch('http://localhost:3000/api/location', {
+                const response = await fetch('/api/location', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        lat,
-                        lng,
-                        address,
-                        accuracy,
-                        speed
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lat, lng, address, accuracy, speed })
                 });
+                
+                if (response.ok) {
+                    console.log('✅ Đã gửi vị trí lên server thành công');
+                }
             } catch (e) {
-                console.log('Server offline, chỉ lưu local');
+                console.log('❌ Không gửi được lên server (có thể đang offline)');
             }
         }
 
         function showPosition(position, isWatch = false) {
-            const {
-                latitude: lat,
-                longitude: lng,
-                accuracy,
-                speed
-            } = position.coords;
-            currentLat = lat;
-            currentLng = lng;
+            const {latitude: lat, longitude: lng, accuracy, speed} = position.coords;
+            currentLat = lat; currentLng = lng;
 
             initMap(lat, lng);
             document.getElementById('permissionOverlay').style.display = 'none';
@@ -343,15 +182,16 @@
             getAddress(lat, lng).then(addr => {
                 document.getElementById('info').innerHTML = `
                     <div class="status ${isWatch ? 'watching' : 'success'}">${isWatch ? '📍 Đang theo dõi' : '✅ Vị trí chính xác'}</div>
-                    <div class="info-item"><div class="icon">📍</div><div class="info-content"><h3>Tọa độ</h3><p>${lat.toFixed(6)}, ${lng.toFixed(6)}</p></div></div>
+                    <div class="info-item"><div class="icon">📍</div><div class="info-content"><h3>Tọa độ GPS</h3><p>${lat.toFixed(6)}, ${lng.toFixed(6)}</p></div></div>
                     <div class="info-item"><div class="icon">🎯</div><div class="info-content"><h3>Độ chính xác</h3><p>${accuracy.toFixed(0)} mét</p></div></div>
-                    <div class="info-item"><div class="icon">🏎️</div><div class="info-content"><h3>Tốc độ</h3><p>${speed !== null ? (speed * 3.6).toFixed(1) + ' km/h' : 'Đang dừng'}</p></div></div>
-                    <div class="info-item"><div class="icon">🏠</div><div class="info-content"><h3>Địa chỉ</h3><p style="font-size:1.08rem;">${addr}</p></div></div>
+                    <div class="info-item"><div class="icon">🏎️</div><div class="info-content"><h3>Tốc độ hiện tại</h3><p>${speed !== null ? (speed * 3.6).toFixed(1) + ' km/h' : 'Đang dừng'}</p></div></div>
+                    <div class="info-item"><div class="icon">🏠</div><div class="info-content"><h3>Địa chỉ gần nhất</h3><p style="font-size:1.08rem; line-height:1.45;">${addr}</p></div></div>
                 `;
 
                 marker.setPopupContent(`<b>Vị trí của bạn</b><br>${addr}<br>Chính xác: ${accuracy.toFixed(0)}m`).openPopup();
+                
                 sendToServer(lat, lng, addr, accuracy, speed);
-                showToast(isWatch ? "Vị trí cập nhật (theo dõi)" : "Vị trí đã lấy thành công!");
+                showToast(isWatch ? "Vị trí đã được cập nhật (theo dõi)" : "Vị trí đã được lấy thành công!");
             });
         }
 
@@ -369,11 +209,7 @@
         function getCurrentLocation() {
             if (!navigator.geolocation) return showToast("Trình duyệt không hỗ trợ GPS", 'error');
             document.getElementById('status').innerHTML = `🔄 Đang lấy vị trí...`;
-            navigator.geolocation.getCurrentPosition(pos => showPosition(pos, false), showError, {
-                enableHighAccuracy: true,
-                timeout: 15000,
-                maximumAge: 5000
-            });
+            navigator.geolocation.getCurrentPosition(pos => showPosition(pos, false), showError, {enableHighAccuracy:true, timeout:15000, maximumAge:5000});
         }
 
         function toggleWatch() {
@@ -382,35 +218,29 @@
                 navigator.geolocation.clearWatch(watchId);
                 isWatching = false;
                 btn.innerHTML = `📍 Bật theo dõi liên tục`;
-                btn.classList.remove('btn-danger');
-                btn.classList.add('btn-primary');
-                showToast("Đã dừng theo dõi");
+                btn.classList.remove('btn-danger'); btn.classList.add('btn-primary');
+                showToast("Đã dừng theo dõi GPS");
             } else {
-                watchId = navigator.geolocation.watchPosition(pos => showPosition(pos, true), showError, {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                });
+                watchId = navigator.geolocation.watchPosition(pos => showPosition(pos, true), showError, {enableHighAccuracy:true, timeout:10000, maximumAge:0});
                 isWatching = true;
                 btn.innerHTML = `⏹ Dừng theo dõi`;
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-danger');
-                showToast("Đã bật theo dõi liên tục");
+                btn.classList.remove('btn-primary'); btn.classList.add('btn-danger');
+                showToast("Đã bật theo dõi GPS liên tục");
             }
         }
 
         function shareLocation() {
-            if (!currentLat || !currentLng) return showToast("Chưa có vị trí!", 'error');
+            if (!currentLat || !currentLng) return showToast("Chưa có vị trí để chia sẻ!", 'error');
             const text = `Vị trí của tôi:\n${currentLat.toFixed(6)}, ${currentLng.toFixed(6)}\nhttps://www.google.com/maps?q=${currentLat},${currentLng}`;
-            if (navigator.share) navigator.share({
-                title: 'Chia sẻ vị trí',
-                text
-            }).catch(() => copyToClipboard(text));
-            else copyToClipboard(text);
+            if (navigator.share) {
+                navigator.share({title: 'Chia sẻ vị trí', text}).catch(() => copyToClipboard(text));
+            } else {
+                copyToClipboard(text);
+            }
         }
 
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => showToast("Đã sao chép!"));
+            navigator.clipboard.writeText(text).then(() => showToast("Đã sao chép vị trí!"));
         }
 
         function retryLocation() {
@@ -424,5 +254,4 @@
         };
     </script>
 </body>
-
 </html>
